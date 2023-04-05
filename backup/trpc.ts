@@ -1,6 +1,13 @@
-import { httpBatchLink, loggerLink } from "@trpc/client";
+import {
+  httpBatchLink,
+  loggerLink,
+  createWSClient,
+  wsLink,
+  splitLink,
+} from "@trpc/client";
 import { createTRPCNext } from "@trpc/next";
 import { type inferRouterInputs, type inferRouterOutputs } from "@trpc/server";
+
 import { type AppRouter } from "../api/presentation/src/index";
 
 /*const getBaseUrl = () => {
@@ -18,8 +25,19 @@ export const trpc = createTRPCNext<AppRouter>({
             process.env.NODE_ENV === "development" ||
             (opts.direction === "down" && opts.result instanceof Error),
         }),
-        httpBatchLink({
-          url: `http://localhost:4001/presentation-api/trpc`,
+
+        splitLink({
+          condition: (opts) => {
+            return opts.type === "subscription";
+          },
+          true: wsLink({
+            client: createWSClient({
+              url: "ws://localhost:4001/presentation-api/trpc",
+            }),
+          }),
+          false: httpBatchLink({
+            url: `http://localhost:4001/presentation-api/trpc`,
+          }),
         }),
       ],
     };

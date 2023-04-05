@@ -7,7 +7,8 @@ import RevealHighlight from "../../plugin/highlight/highlight.esm.js";
 import RevealNotes from "../../plugin/notes/notes.esm.js";
 import { trpc } from "../../utils/trpc";
 import { Slide } from "@/types/slide.js";
-
+import { io } from "socket.io-client";
+const socket = io("http://localhost:4001");
 function Client({ children }: { children: React.ReactNode }) {
   const { isLoad, data, fetchNextPage, hasNextPage, isFetchingNextPage }: any =
     trpc.getSlide.useQuery(
@@ -23,14 +24,6 @@ function Client({ children }: { children: React.ReactNode }) {
 
   console.log("data getSlide ", data);
 
-  trpc.onUpdateSlide.useSubscription(undefined, {
-    onData: ({ indexh, indexv }: Slide) => {
-      console.log(indexh, indexv, "  onData useSubscription :)");
-      // retux store
-      // useStore.setState({ indexh: data.indexh, indexv: data.indexv });
-    },
-  });
-
   useEffect(() => {
     // @ts-ignore
     const reveal: any = new Reveal({
@@ -42,6 +35,11 @@ function Client({ children }: { children: React.ReactNode }) {
       controls: false,
       // Enable keyboard shortcuts for navigation
       keyboard: false,
+    });
+
+    socket.on("reciveUpdate", (data: Slide) => {
+      console.log("reciveUpdate :) ", data);
+      reveal.slide(data.indexh, data.indexv);
     });
     reveal.layout();
   }, []);

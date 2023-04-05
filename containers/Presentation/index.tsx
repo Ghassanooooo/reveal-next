@@ -11,7 +11,8 @@ import { setIndexh, setIndexv } from "@/store/slideSlice";
 
 //import { Store } from "@/types/store";
 import { useSelector, useDispatch } from "react-redux";
-
+import { io } from "socket.io-client";
+const socket = io("http://localhost:4001");
 function Presentation({ children }: { children: React.ReactNode }) {
   const { indexh, indexv }: Slide = useSelector((state: any) => state.slide);
   const dispatch = useDispatch();
@@ -52,7 +53,7 @@ function Presentation({ children }: { children: React.ReactNode }) {
       reveal.layout();
       reveal.on("slidechanged", async ({ indexh, indexv }: Slide) => {
         mutate({ indexh, indexv });
-
+        socket.emit("update", { indexh, indexv });
         console.log(indexh, indexv, "  reveal");
       });
     })();
