@@ -7,6 +7,8 @@ node_modules
 # .next
 .next
 
+build
+
 # helm
 helm
 
@@ -20,7 +22,4 @@ LICENSE
 .git
 
 .env
-
-
-api
 

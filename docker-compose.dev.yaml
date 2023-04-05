@@ -1,32 +1,52 @@
-version: "2.1"
+version: "3.8"
 services:
-  code-server:
-    image: lscr.io/linuxserver/code-server:latest
-    container_name: code-server
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Etc/UTC
-      - PASSWORD=password #optional
-      - HASHED_PASSWORD= #optional
-      - SUDO_PASSWORD=password #optional
-      - SUDO_PASSWORD_HASH= #optional
-      - PROXY_DOMAIN=code-server.my.domain #optional
-      - DEFAULT_WORKSPACE=/config/workspace #optional
-    volumes:
-      - /Users/ghassanaldarwish/codeserver/config:/config
+  nginx-reveal-drei:
+    depends_on:
+      - presentation-api
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: ./nginx
     ports:
-      - 8443:8443
-    restart: unless-stopped
+      - "4001:4001"
 
-  reveal-react:
+  reveal-drei:
     build:
       context: .
       dockerfile: Dockerfile.dev
     ports:
-      - "5050:5050"
+      - "4000:3000"
     volumes:
-      - ./src:/app/src
+      - ./app:/app/app
+      - ./components:/app/components
+      - ./containers:/app/containers
+      - ./store:/app/store
+      - ./styles:/app/styles
+      - ./public:/app/public
+      - ./plugin:/app/plugin
+      - ./utils:/app/utils
+      - ./types:/app/types
+      - ./nginx:/app/nginx
+      - ./js:/app/js
     environment:
       - CHOKIDAR_USEPOLLING=true
       - WDS_SOCKET_PORT=0
+    depends_on:
+      - presentation-api
+    restart: unless-stopped
+
+  presentation-api:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./api/presentation
+    volumes:
+      - ./api/presentation:/app
+      - /api/node_modules
+    environment:
+      - PORT=8000
+      - NODE_ENV=development
+      - DB_NAME=presentation
+      - ROLE=admin
+    env_file:
+      - ./.env
+    restart: unless-stopped

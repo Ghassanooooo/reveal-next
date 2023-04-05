@@ -5,19 +5,32 @@ import Reveal from "../../js/reveal.js";
 import RevealMarkdown from "../../plugin/markdown/markdown.esm.js";
 import RevealHighlight from "../../plugin/highlight/highlight.esm.js";
 import RevealNotes from "../../plugin/notes/notes.esm.js";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import useStore from "../../store/useStore";
+import { trpc } from "../../utils/trpc";
+import { Slide } from "@/types/slide.js";
 
 function Client({ children }: { children: React.ReactNode }) {
-  console.log("Client useStore", useStore.getState());
-  const { data, isLoading } = useQuery({
-    queryKey: ["presentation"],
-    queryFn: () => {
-      return { indexh: 0, indexv: 0 };
+  const { isLoad, data, fetchNextPage, hasNextPage, isFetchingNextPage }: any =
+    trpc.getSlide.useQuery(
+      undefined, // no input
+      {
+        onSuccess: ({ indexh, indexv }: Slide) => {
+          console.log(indexh, indexv, "  onSuccess");
+          // retux store
+          // useStore.setState({ indexh: data.indexh, indexv: data.indexv });
+        },
+      }
+    );
+
+  console.log("data getSlide ", data);
+
+  trpc.onUpdateSlide.useSubscription(undefined, {
+    onData: ({ indexh, indexv }: Slide) => {
+      console.log(indexh, indexv, "  onData useSubscription :)");
+      // retux store
+      // useStore.setState({ indexh: data.indexh, indexv: data.indexv });
     },
   });
 
-  const queryClient = useQueryClient();
   useEffect(() => {
     // @ts-ignore
     const reveal: any = new Reveal({
@@ -31,10 +44,11 @@ function Client({ children }: { children: React.ReactNode }) {
       keyboard: false,
     });
     reveal.layout();
-    console.log(data, " Client recive slides data");
   }, []);
 
   return <Fragment>{children}</Fragment>;
 }
 
-export default Client;
+export default trpc.withTRPC(Client);
+
+//export default Client;

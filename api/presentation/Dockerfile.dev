@@ -15,4 +15,4 @@ RUN yarn install --silent
 COPY . .
 
 # start app
-CMD ["npm", "run", "dev"]
+CMD ["yarn", "dev"]

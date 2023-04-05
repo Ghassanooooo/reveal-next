@@ -1,22 +1,26 @@
+//import Preloader from "@/containers/Redux/Preloader";
+import Providers from "@/containers/Redux/Provider";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
-import { dehydrate, Hydrate } from "@tanstack/react-query";
-import getQueryClient from "../util/getQueryClient";
+import { setIndexh, setIndexv } from "@/store/slideSlice";
+import { store } from "@/store";
 
-const Presentation = dynamic(() => import("../../containers/Presentation"), {
+const Presentation = dynamic(() => import("@/containers/Presentation"), {
   ssr: false,
 });
 
-async function Index() {
-  const queryClient = getQueryClient();
-  await queryClient.prefetchQuery(["presentation"], async () => {
-    return { indexh: 0, indexv: 0 };
-  });
+const slideData = {
+  indexh: 0,
+  indexv: 0,
+};
 
-  const dehydratedState = dehydrate(queryClient);
+async function Index() {
+  store.dispatch(setIndexh(slideData.indexh));
+  store.dispatch(setIndexv(slideData.indexv));
+
   return (
-    <Hydrate state={dehydratedState}>
-      <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Providers>
         <Presentation>
           <section
             data-background-color="aquamarine"
@@ -67,8 +71,8 @@ async function Index() {
             <h2>🐟</h2>
           </section>
         </Presentation>
-      </Suspense>
-    </Hydrate>
+      </Providers>
+    </Suspense>
   );
 }
 
