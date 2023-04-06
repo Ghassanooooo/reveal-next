@@ -1,5 +1,6 @@
-const baseURL = "http://localhost:4110";
+//const baseURL = "http://localhost:4110";
 // new port for client 4111 nginx
+const baseURL = "https://revealapi.crtil.com";
 
 export const presentationApi = baseURL + "/presentation-api/trpc";
 export const socketApi = baseURL;
