@@ -1,19 +1,18 @@
 "use client";
 
-import { useEffect, Fragment, useState } from "react";
-import Reveal from "../../js/reveal.js";
-import RevealMarkdown from "../../plugin/markdown/markdown.esm.js";
-import RevealHighlight from "../../plugin/highlight/highlight.esm.js";
-import RevealNotes from "../../plugin/notes/notes.esm.js";
-import { trpc } from "../../utils/trpc";
+import { useEffect, Fragment } from "react";
+import Reveal from "@/js/reveal.js";
+import RevealMarkdown from "@/plugin/markdown/markdown.esm.js";
+import RevealHighlight from "@/plugin/highlight/highlight.esm.js";
+import RevealNotes from "@/plugin/notes/notes.esm.js";
+import { trpc } from "@/utils/trpc";
 import { Slide } from "@/types/slide";
 import { setIndexh, setIndexv } from "@/store/slideSlice";
-
-//import { Store } from "@/types/store";
 import { useSelector, useDispatch } from "react-redux";
-import { io } from "socket.io-client";
-const socket = io("http://localhost:4001");
-function Presentation({ children }: { children: React.ReactNode }) {
+import { socket } from "@/utils/socket";
+import SlidesComponent from "@/components/Slides";
+
+function Master({ children }: { children: React.ReactNode }) {
   const { indexh, indexv }: Slide = useSelector((state: any) => state.slide);
   const dispatch = useDispatch();
   console.log(indexh, indexv, "  useSelector");
@@ -26,8 +25,6 @@ function Presentation({ children }: { children: React.ReactNode }) {
           console.log(indexh, indexv, "  onSuccess");
           dispatch(setIndexh(indexh));
           dispatch(setIndexv(indexv));
-          // retux store
-          // useStore.setState({ indexh: data.indexh, indexv: data.indexv });
         },
       }
     );
@@ -57,10 +54,13 @@ function Presentation({ children }: { children: React.ReactNode }) {
         console.log(indexh, indexv, "  reveal");
       });
     })();
-  }, []);
+  }, [mutate]);
 
-  return <Fragment>{children}</Fragment>;
+  return (
+    <Fragment>
+      <SlidesComponent />
+    </Fragment>
+  );
 }
 
-export default trpc.withTRPC(Presentation);
-//export default Presentation;
+export default trpc.withTRPC(Master);

@@ -7,8 +7,8 @@ import RevealHighlight from "../../plugin/highlight/highlight.esm.js";
 import RevealNotes from "../../plugin/notes/notes.esm.js";
 import { trpc } from "../../utils/trpc";
 import { Slide } from "@/types/slide.js";
-import { io } from "socket.io-client";
-const socket = io("http://localhost:4001");
+import { socket } from "@/utils/socket";
+import SlidesComponent from "@/components/Slides";
 function Client({ children }: { children: React.ReactNode }) {
   const { isLoad, data, fetchNextPage, hasNextPage, isFetchingNextPage }: any =
     trpc.getSlide.useQuery(
@@ -35,6 +35,8 @@ function Client({ children }: { children: React.ReactNode }) {
       controls: false,
       // Enable keyboard shortcuts for navigation
       keyboard: false,
+      // Enables touch navigation on devices with touch input
+      touch: false,
     });
 
     socket.on("reciveUpdate", (data: Slide) => {
@@ -44,9 +46,11 @@ function Client({ children }: { children: React.ReactNode }) {
     reveal.layout();
   }, []);
 
-  return <Fragment>{children}</Fragment>;
+  return (
+    <Fragment>
+      <SlidesComponent />
+    </Fragment>
+  );
 }
 
 export default trpc.withTRPC(Client);
-
-//export default Client;

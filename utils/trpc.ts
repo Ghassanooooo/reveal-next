@@ -1,12 +1,9 @@
 import { httpBatchLink, loggerLink } from "@trpc/client";
 import { createTRPCNext } from "@trpc/next";
+import { presentationApi } from "./baseURL";
+
 import { type inferRouterInputs, type inferRouterOutputs } from "@trpc/server";
 import { type AppRouter } from "../api/presentation/src/index";
-
-/*const getBaseUrl = () => {
-  if (typeof window !== "undefined") return ""; // browser should use relative url
-  return `http://localhost:${process.env.PORT ?? 4001}`; // dev SSR should use localhost
-};*/
 
 /** A set of type-safe react-query hooks for your tRPC API. */
 export const trpc = createTRPCNext<AppRouter>({
@@ -19,7 +16,7 @@ export const trpc = createTRPCNext<AppRouter>({
             (opts.direction === "down" && opts.result instanceof Error),
         }),
         httpBatchLink({
-          url: `http://localhost:4001/presentation-api/trpc`,
+          url: presentationApi,
         }),
       ],
     };

@@ -8,14 +8,14 @@ services:
       dockerfile: Dockerfile
       context: ./nginx
     ports:
-      - "4110:4110"
+      - "4111:4111"
 
   reveal-drei:
     build:
       context: .
       dockerfile: Dockerfile.dev
     ports:
-      - "4111:4111"
+      - "4110:80"
     volumes:
       - ./app:/app/app
       - ./components:/app/components
