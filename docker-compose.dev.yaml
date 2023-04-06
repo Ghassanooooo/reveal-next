@@ -47,6 +47,4 @@ services:
       - NODE_ENV=development
       - DB_NAME=presentation
       - ROLE=admin
-    env_file:
-      - ./.env
     restart: unless-stopped
