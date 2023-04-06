@@ -12,9 +12,7 @@ services:
       - "4444:4444"
 
   reveal-drei:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: "ghassanaldarwish/reveal-drei"
     ports:
       - "4222:4222"
     environment:
