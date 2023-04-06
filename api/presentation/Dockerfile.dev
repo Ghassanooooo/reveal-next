@@ -15,4 +15,4 @@ RUN npm install --silent
 COPY . .
 
 # start app
-CMD ["npm", 'run', "dev"]
+CMD ["npm", "run", "dev"]
