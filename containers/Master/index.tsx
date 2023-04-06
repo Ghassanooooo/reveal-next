@@ -18,10 +18,12 @@ function Master({ children }: { children: React.ReactNode }) {
   console.log(indexh, indexv, "  useSelector");
 
   const { isLoad, data, fetchNextPage, hasNextPage, isFetchingNextPage }: any =
+    // @ts-ignore
     trpc.getSlide.useQuery(
+      // @ts-ignore
       undefined, // no input
       {
-        onSuccess: ({ indexh, indexv }: Slide) => {
+        onSuccess: ({ indexh, indexv }: any) => {
           console.log(indexh, indexv, "  onSuccess");
           dispatch(setIndexh(indexh));
           dispatch(setIndexv(indexv));
@@ -30,10 +32,10 @@ function Master({ children }: { children: React.ReactNode }) {
     );
 
   console.log("data getSlide ", data);
-
+  // @ts-ignore
   const { isLoading, mutate } = trpc.updateSlide.useMutation({
     retry: false,
-    onSuccess: ({ indexh, indexv }) => {
+    onSuccess: ({ indexh, indexv }: any) => {
       dispatch(setIndexh(indexh));
       dispatch(setIndexv(indexv));
     },
@@ -63,4 +65,5 @@ function Master({ children }: { children: React.ReactNode }) {
   );
 }
 
+// @ts-ignore
 export default trpc.withTRPC(Master);

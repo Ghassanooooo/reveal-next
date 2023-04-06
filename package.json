@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 4111",
+    "dev": "next dev -p 4222",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 4222",
     "lint": "next lint"
   },
   "dependencies": {
@@ -23,6 +23,7 @@
     "react-redux": "^8.0.5",
     "redux": "^4.2.1",
     "socket.io-client": "^4.6.1",
+    "utf-8-validate": "^5.0.10",
     "zustand": "^4.3.7"
   },
   "devDependencies": {

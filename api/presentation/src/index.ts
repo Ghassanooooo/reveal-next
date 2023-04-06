@@ -8,7 +8,7 @@ import { createExpressMiddleware } from "@trpc/server/adapters/express";
 
 const app: Express = express();
 const server = http.createServer(app);
-const port = process.env.PORT || 4112;
+const port = process.env.PORT || 4223;
 const origin = process.env.ORIGIN || "*";
 
 app.use(cors({ origin, credentials: true }));

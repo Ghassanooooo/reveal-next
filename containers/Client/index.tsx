@@ -11,8 +11,10 @@ import { socket } from "@/utils/socket";
 import SlidesComponent from "@/components/Slides";
 function Client({ children }: { children: React.ReactNode }) {
   const { isLoad, data, fetchNextPage, hasNextPage, isFetchingNextPage }: any =
+    // @ts-ignore
     trpc.getSlide.useQuery(
-      undefined, // no input
+      // @ts-ignore
+      undefined,
       {
         onSuccess: ({ indexh, indexv }: Slide) => {
           console.log(indexh, indexv, "  onSuccess");
@@ -53,4 +55,5 @@ function Client({ children }: { children: React.ReactNode }) {
   );
 }
 
+// @ts-ignore
 export default trpc.withTRPC(Client);
