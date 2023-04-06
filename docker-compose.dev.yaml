@@ -3,19 +3,20 @@ services:
   nginx-reveal-drei:
     depends_on:
       - presentation-api
+      - reveal-drei
     restart: always
     build:
       dockerfile: Dockerfile
       context: ./nginx
     ports:
-      - "4110:4110"
+      - "4444:4444"
 
   reveal-drei:
     build:
       context: .
       dockerfile: Dockerfile.dev
     ports:
-      - "4111:4111"
+      - "4222:4222"
     volumes:
       - ./app:/app/app
       - ./components:/app/components
@@ -43,7 +44,7 @@ services:
       - ./api/presentation:/app
       - /api/node_modules
     environment:
-      - PORT=4112
+      - PORT=4223
       - NODE_ENV=development
       - DB_NAME=presentation
       - ROLE=admin
