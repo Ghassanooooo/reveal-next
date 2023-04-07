@@ -74,7 +74,11 @@ io.on("connection", (socket: any) => {
     console.log("received reloadPage", update);
     // socket.broadcast.emit("reciveUpdate", update);
   });
-
+  socket.on("multiplex-statechanged", (update: any) => {
+    socket.broadcast.emit("room-1", update);
+    console.log("room-1", update);
+    // socket.broadcast.emit("reciveUpdate", update);
+  });
   socket.on("clear", () => io.emit("clear"));
 });
 server.listen(port, () => {

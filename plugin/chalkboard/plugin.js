@@ -577,7 +577,6 @@ const initChalkboard = function (Reveal) {
     }
     return success;
   }
-
   /**
    * Load data.
    */
@@ -638,6 +637,7 @@ const initChalkboard = function (Reveal) {
     if (config.storage) {
       sessionStorage.setItem(config.storage, json);
     }
+
     return json;
   }
 
@@ -804,6 +804,7 @@ const initChalkboard = function (Reveal) {
       }
       //			Reveal.sync();
     };
+
     patImg.src = background[1];
   }
 
@@ -936,6 +937,7 @@ const initChalkboard = function (Reveal) {
    ******************************************************************/
 
   function drawWithBoardmarker(context, fromX, fromY, toX, toY, colorIdx) {
+    console.log("Drawings drawWithBoardmarker", storage);
     if (colorIdx == undefined) colorIdx = color[mode];
     context.lineWidth = boardmarkerWidth;
     context.lineCap = "round";
@@ -947,6 +949,8 @@ const initChalkboard = function (Reveal) {
   }
 
   function drawWithChalk(context, fromX, fromY, toX, toY, colorIdx) {
+    console.log("Drawings drawWithChalk", storage);
+
     if (colorIdx == undefined) colorIdx = color[mode];
     var brushDiameter = chalkWidth;
     context.lineWidth = brushDiameter;
@@ -987,6 +991,8 @@ const initChalkboard = function (Reveal) {
   }
 
   function eraseWithSponge(context, x, y) {
+    console.log("Drawings eraseWithSponge", storage);
+
     context.save();
     context.beginPath();
     context.arc(x, y, eraser.radius, 0, 2 * Math.PI, false);
@@ -1014,6 +1020,9 @@ const initChalkboard = function (Reveal) {
     drawingCanvas[1].sponge.style.visibility = "hidden"; // make sure that the sponge from touch events is hidden
     drawingCanvas[1].container.style.opacity = 1;
     drawingCanvas[1].container.style.visibility = "visible";
+    drawingCanvas[1].container.style.background = "rgba(127,127,127,1)";
+    console.log("showChalkboard red", storage);
+
     mode = 1;
   }
 

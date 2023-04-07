@@ -14,8 +14,6 @@ export default class Plugins {
     this.registeredPlugins = {};
 
     this.asyncDependencies = [];
-
-    console.log("registeredPlugins", this.registeredPlugins);
   }
 
   /**

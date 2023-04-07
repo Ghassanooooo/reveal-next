@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, Fragment } from "react";
+import { useEffect, Fragment, useState } from "react";
 import Reveal from "@/js/reveal.js";
 import RevealMarkdown from "@/plugin/markdown/markdown.esm.js";
 import RevealHighlight from "@/plugin/highlight/highlight.esm.js";
@@ -15,9 +15,14 @@ import SlidesComponent from "@/components/Slides";
 import RevealChalkboard from "@/plugin/chalkboard/plugin.js";
 import RevealCustomControls from "@/plugin/customcontrols/plugin.js";
 
+// plugin to bootcast https://github.com/rajgoel/reveal.js-plugins/blob/master/seminar/plugin.js
+// bootcast https://github.com/reveal/multiplex
+// menu plugin https://github.com/denehyg/reveal.js-menu
+
 function Master({ children }: { children: React.ReactNode }) {
   //const { indexh, indexv }: Slide = useSelector((state: any) => state.slide);
   const dispatch = useDispatch();
+  const [reveal, setReveal] = useState<any>(null);
   /*
   const { isLoad, data, fetchNextPage, hasNextPage, isFetchingNextPage }: any =
     // @ts-ignore
@@ -43,6 +48,16 @@ function Master({ children }: { children: React.ReactNode }) {
     },
     onError: (err: any) => console.error(err.message),
   });*/
+  function post(evt: any, reveal: any) {
+    var messageData = {
+      state: reveal.getState(),
+      secret: "123456",
+      socketId: "room-1",
+      content: (evt || {}).content,
+    };
+
+    socket.emit("multiplex-statechanged", messageData);
+  }
   const path = "";
   useEffect(() => {
     (async () => {
@@ -153,6 +168,7 @@ function Master({ children }: { children: React.ReactNode }) {
 
       reveal.on("slidechanged", async ({ indexh, indexv }: Slide) => {
         // mutate({ indexh, indexv });
+
         dispatch(setIndexh(indexh));
         dispatch(setIndexv(indexv));
         socket.emit("update", { indexh, indexv });
@@ -160,6 +176,43 @@ function Master({ children }: { children: React.ReactNode }) {
           socket.emit("update", { indexh, indexv });
         });
       });
+
+      reveal.on("slidechanged", (e: any) => console.log("send", e));
+      reveal.on("fragmentshown", (e: any) => console.log("send", e));
+      reveal.on("fragmenthidden", (e: any) => console.log("send", e));
+      reveal.on("overviewhidden", (e: any) => console.log("send", e));
+      reveal.on("overviewshown", (e: any) => console.log("send", e));
+      reveal.on("paused", (e: any) => console.log("send", e));
+      reveal.on("resumed", (e: any) => console.log("send", e));
+      reveal.on("RevealChalkboard", (e: any) => console.log("send", e));
+      document.addEventListener("broadcast", function (evt) {
+        // broadcast custom events w/o recipient which are sent by other plugins
+        console.log("broadcast", evt);
+      });
+      //const p = reveal.getPlugin("RevealChalkboard");
+
+      //console.log(p, "chalkboard");
+      //reveal.on("slidechanged", (e: any) => post(e, reveal));
+      //reveal.on("RevealChalkboard", (e: any) => console.log(e, "chalkboard"));
+
+      //multiplex-statechanged
+      // const p = reveal.getPlugin("RevealChalkboard");
+      // console.log(p, "chalkboard");
+
+      /**
+      	// post once the page is loaded, so the client follows also on "open URL".
+	window.addEventListener( 'load', post );
+
+	// Monitor events that trigger a change in state
+	Reveal.on( 'slidechanged', post );
+	Reveal.on( 'fragmentshown', post );
+	Reveal.on( 'fragmenthidden', post );
+	Reveal.on( 'overviewhidden', post );
+	Reveal.on( 'overviewshown', post );
+	Reveal.on( 'paused', post );
+	Reveal.on( 'resumed', post );
+	document.addEventListener( 'send', post ); // broadcast custom events sent by other plugins
+      */
     })();
   }, []);
 
