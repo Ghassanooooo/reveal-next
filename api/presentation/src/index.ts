@@ -69,6 +69,11 @@ io.on("connection", (socket: any) => {
     console.log("received update", update);
     socket.broadcast.emit("reciveUpdate", update);
   });
+  socket.on("reloadPage", (update: any) => {
+    socket.broadcast.emit("reloadPage");
+    console.log("received reloadPage", update);
+    // socket.broadcast.emit("reciveUpdate", update);
+  });
 
   socket.on("clear", () => io.emit("clear"));
 });

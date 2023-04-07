@@ -10,7 +10,7 @@ import { Slide } from "@/types/slide.js";
 import { socket } from "@/utils/socket";
 import SlidesComponent from "@/components/Slides";
 function Client({ children }: { children: React.ReactNode }) {
-  const { isLoad, data, fetchNextPage, hasNextPage, isFetchingNextPage }: any =
+  /*const { isLoad, data, fetchNextPage, hasNextPage, isFetchingNextPage }: any =
     // @ts-ignore
     trpc.getSlide.useQuery(
       // @ts-ignore
@@ -22,9 +22,7 @@ function Client({ children }: { children: React.ReactNode }) {
           // useStore.setState({ indexh: data.indexh, indexv: data.indexv });
         },
       }
-    );
-
-  console.log("data getSlide ", data);
+    );*/
 
   useEffect(() => {
     // @ts-ignore
@@ -40,9 +38,8 @@ function Client({ children }: { children: React.ReactNode }) {
       // Enables touch navigation on devices with touch input
       touch: false,
     });
-
+    socket.emit("reloadPage");
     socket.on("reciveUpdate", (data: Slide) => {
-      console.log("reciveUpdate :) ", data);
       reveal.slide(data.indexh, data.indexv);
     });
     reveal.layout();

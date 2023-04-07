@@ -2,7 +2,6 @@ FROM node:alpine AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 COPY package.json  ./
-RUN npm install -g npm@9.6.4
 RUN npm install --frozen-lockfile
 
 # Rebuild the source code only when needed

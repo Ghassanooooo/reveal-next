@@ -3,7 +3,19 @@ import React, { Fragment } from "react";
 export default function Slides() {
   return (
     <Fragment>
+      <section>
+        <p>
+          Today is winning 3 digit number is :<span className="random"></span>,
+          <span className="random"></span>,<span className="random"></span>.
+        </p>
+      </section>
+      <section data-timing="120">
+        <h2>Some Slide</h2>
+
+        <aside className="notes">Shhh, these are your private notes 📝</aside>
+      </section>
       <section
+        data-separator-notes="^Note:"
         data-background-color="aquamarine"
         data-markdown=""
         dangerouslySetInnerHTML={{
@@ -14,6 +26,9 @@ export default function Slides() {
           ## Slide 2
           ---
           ## Slide 3
+
+          Note:
+          This will only display in the notes window.
           `,
         }}
       ></section>
