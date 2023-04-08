@@ -937,7 +937,7 @@ const initChalkboard = function (Reveal) {
    ******************************************************************/
 
   function drawWithBoardmarker(context, fromX, fromY, toX, toY, colorIdx) {
-    console.log("Drawings drawWithBoardmarker", storage);
+    //console.log("Drawings drawWithBoardmarker", storage);
     if (colorIdx == undefined) colorIdx = color[mode];
     context.lineWidth = boardmarkerWidth;
     context.lineCap = "round";
@@ -949,7 +949,7 @@ const initChalkboard = function (Reveal) {
   }
 
   function drawWithChalk(context, fromX, fromY, toX, toY, colorIdx) {
-    console.log("Drawings drawWithChalk", storage);
+    //console.log("Drawings drawWithChalk", storage);
 
     if (colorIdx == undefined) colorIdx = color[mode];
     var brushDiameter = chalkWidth;
@@ -991,7 +991,7 @@ const initChalkboard = function (Reveal) {
   }
 
   function eraseWithSponge(context, x, y) {
-    console.log("Drawings eraseWithSponge", storage);
+    //console.log("Drawings eraseWithSponge", storage);
 
     context.save();
     context.beginPath();
@@ -1021,7 +1021,6 @@ const initChalkboard = function (Reveal) {
     drawingCanvas[1].container.style.opacity = 1;
     drawingCanvas[1].container.style.visibility = "visible";
     drawingCanvas[1].container.style.background = "rgba(127,127,127,1)";
-    console.log("showChalkboard red", storage);
 
     mode = 1;
   }

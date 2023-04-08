@@ -19,6 +19,8 @@ services:
       - "4222:4222"
     volumes:
       - ./app:/app/app
+      - ./HOC:/app/HOC
+      - ./hooks:/app/hooks
       - ./components:/app/components
       - ./containers:/app/containers
       - ./store:/app/store
@@ -28,7 +30,6 @@ services:
       - ./utils:/app/utils
       - ./types:/app/types
       - ./nginx:/app/nginx
-      - ./js:/app/js
     environment:
       - CHOKIDAR_USEPOLLING=true
       - WDS_SOCKET_PORT=0

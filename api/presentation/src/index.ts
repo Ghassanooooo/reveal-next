@@ -74,10 +74,11 @@ io.on("connection", (socket: any) => {
     console.log("received reloadPage", update);
     // socket.broadcast.emit("reciveUpdate", update);
   });
-  socket.on("multiplex-statechanged", (update: any) => {
-    socket.broadcast.emit("room-1", update);
-    console.log("room-1", update);
-    // socket.broadcast.emit("reciveUpdate", update);
+  // gen token https://github.com/reveal/multiplex/blob/master/index.js
+
+  socket.on("broadcast-multiplex", (data: any) => {
+    socket.broadcast.emit(data.socketId, data);
+    console.log("broadcast-multiplex => ", data);
   });
   socket.on("clear", () => io.emit("clear"));
 });

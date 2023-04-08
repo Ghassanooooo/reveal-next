@@ -18,7 +18,7 @@ services:
     ports:
       - "4222:4222"
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=development
       - CHOKIDAR_USEPOLLING=true
       - WDS_SOCKET_PORT=0
     depends_on:

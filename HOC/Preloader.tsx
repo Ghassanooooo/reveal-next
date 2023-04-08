@@ -1,8 +1,8 @@
 "use client";
 import { useRef } from "react";
 import { store } from "@/store";
-import { setIndexh, setIndexv } from "../../store/slideSlice";
-import { Slide } from "../../types/slide";
+import { setIndexh, setIndexv } from "../store/slideSlice";
+import { Slide } from "../types/slide";
 
 function Preloader({ slide }: { slide: Slide }) {
   console.log("Preloader", slide);
