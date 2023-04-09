@@ -2,7 +2,13 @@
 
 # api folder
 
-/api
+/api/**/node_modules
+/api/**/build
+/api/**/.env
+
+/data
+
+
 
 # dependencies
 /node_modules

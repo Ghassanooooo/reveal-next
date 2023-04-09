@@ -83,6 +83,16 @@ export default function useMasterReveal() {
       });
 
       reveal.layout();
+      console.log(reveal.getTotalSlides(), "getTotalSlides");
+      console.log(reveal.getVerticalSlides(), "getVerticalSlides");
+      console.log(reveal.getState(), "getState");
+      console.log(reveal.getSlidesAttributes(), "getSlidesAttributes");
+
+      console.log(reveal.getSlides(), "getSlides");
+
+      console.log(reveal.getHorizontalSlides(), "getHorizontalSlides");
+      console.log(reveal.getCurrentSlide(), "CurrentSlide");
+      console.log(reveal.getConfig(), "getConfig");
 
       broadcast(reveal);
     })();

@@ -59,6 +59,7 @@ export default function useClientReveal() {
     });
     broadcast(reveal);
     reveal.layout();
+    console.log(reveal, "reveal");
   }, []);
 
   return null;

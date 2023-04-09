@@ -5,7 +5,9 @@ import http from "http";
 import { z } from "zod";
 import cors from "cors";
 import { createExpressMiddleware } from "@trpc/server/adapters/express";
-
+import connectDB from "./db/connect";
+import Slide from "./models/Slide";
+connectDB();
 const app: Express = express();
 const server = http.createServer(app);
 const port = process.env.PORT || 4223;
@@ -24,8 +26,11 @@ const publicProcedure = t.procedure;
 const data = { indexh: 0, indexv: 0 };
 
 const appRouter = router({
-  getSlide: publicProcedure.query(({ ctx }) => {
-    return data;
+  getSlide: publicProcedure.query(async ({ ctx }) => {
+    const slide = new Slide({});
+    await slide.save();
+    console.log("getSlide server", slide);
+    return slide;
   }),
 
   updateSlide: publicProcedure
@@ -82,7 +87,9 @@ io.on("connection", (socket: any) => {
   });
   socket.on("clear", () => io.emit("clear"));
 });
+
 server.listen(port, () => {
   console.log(`⚡️[server]: Port: ${port}`);
 });
+
 export type AppRouter = typeof appRouter;
