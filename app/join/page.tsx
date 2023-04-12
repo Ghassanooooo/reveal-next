@@ -1,22 +1,25 @@
 import dynamic from "next/dynamic";
+import Image from "next/image";
 import { Suspense } from "react";
 
 async function Index() {
   return (
     <>
-      <img
+      <Image
+        alt=""
         src="/wave.png"
         className="fixed hidden lg:block inset-0 h-full"
         style={{ zIndex: -1 }}
       />
 
       <div className="w-screen h-screen flex flex-col justify-center items-center lg:grid lg:grid-cols-2">
-        <img
+        <Image
+          alt=""
           src="/unlock.svg"
           className="hidden lg:block w-1/2 hover:scale-150 transition-all duration-500 transform mx-auto"
         />
         <form className="flex flex-col justify-center items-center w-1/2">
-          <img src="/avatar.svg" className="w-32" />
+          <Image alt="" src="/avatar.svg" className="w-32" />
           <h2 className="my-8 font-display font-bold text-3xl text-gray-700 text-center">
             Welcome to Your Lesson
           </h2>

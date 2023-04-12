@@ -1,4 +1,5 @@
 import dynamic from "next/dynamic";
+import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
 
@@ -72,7 +73,7 @@ async function Index() {
             </div>
 
             <div className="mt-3 text-xs flex justify-between items-center text-[#002D74]">
-              <p>Don't have an account?</p>
+              <p>Do not have an account?</p>
               <Link
                 href="/register"
                 className="py-2 px-5 bg-white border rounded-xl hover:scale-110 duration-300"
@@ -83,7 +84,8 @@ async function Index() {
           </div>
 
           <div className="md:block hidden w-1/2">
-            <img
+            <Image
+              alt=""
               className="rounded-2xl"
               src="https://images.unsplash.com/photo-1616606103915-dea7be788566?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887&q=80"
             />

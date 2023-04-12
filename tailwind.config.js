@@ -9,8 +9,9 @@ module.exports = {
   important: true,
   darkMode: "class",
   content: [
-    "./app/login/**/*.{js,ts,jsx,tsx,mdx}",
-    "./app/join/**/*.{js,ts,jsx,tsx,mdx}",
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./containers/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {},
